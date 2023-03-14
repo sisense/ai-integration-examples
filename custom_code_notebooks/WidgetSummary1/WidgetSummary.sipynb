@@ -1,0 +1,440 @@
+{
+    "description": "",
+    "icon": "",
+    "cellsDisable": [
+        0
+    ],
+    "language": "Python",
+    "mode": "Full",
+    "serverUrl": "customcode:8888",
+    "timeout": 0,
+    "group": "AI",
+    "isActive": true,
+    "isSystem": true,
+    "id": "WidgetSummary",
+    "displayName": "WidgetSummary",
+    "codePath": "/work/storage_notebooks/custom_code_notebooks/notebooks/WidgetSummary1/WidgetSummary1.ipynb",
+    "additionalParameters": [
+        {
+            "description": "question from the user",
+            "name": "question",
+            "send": true,
+            "title": "Question",
+            "type": "text"
+        },
+        {
+            "description": "",
+            "name": "to_validate_entities_from_question",
+            "send": true,
+            "title": "Validate Entities",
+            "type": "text"
+        },
+        {
+            "description": "widget identifier",
+            "name": "widgetId",
+            "send": true,
+            "title": "widgetId",
+            "type": "text"
+        },
+        {
+            "description": "Data model name",
+            "name": "model_name",
+            "send": true,
+            "title": "Model Name",
+            "type": "text"
+        },
+        {
+            "description": "authentication cookie",
+            "name": "cookie",
+            "send": true,
+            "title": "cookie",
+            "type": "text"
+        }
+    ],
+    "columns": [
+        {
+            "name": "example",
+            "id": "example",
+            "type": 2
+        }
+    ],
+    "isTableDiscoveryEnabled": true,
+    "notebookCode": {
+        "cells": [
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Test Cell\n",
+                    "# When the notebook is executed by the widget, this cell is ignored. \n",
+                    "import pandas as pd\n",
+                    "import sys\n",
+                    "import base64\n",
+                    "import io\n",
+                    "import os\n",
+                    "\n",
+                    "additional_parameters = \"{\\\"question\\\":\\\"dashboard Sample - Healthcare widget TOP 10 DIAGNOSIS\\\"\"+\\\n",
+                    "\",\\\"to_validate_entities_from_question\\\": false,\\\"widgetId\\\":\\\"63ac28e77a19050033efd92d\\\",\\\"model_name\\\":\\\"Sample Healthcare\\\"\" + \\\n",
+                    "\",\\\"cookie\\\":\\\"XXX\\\"}\"\n",
+                    "\n",
+                    "\n",
+                    "df_input = pd.DataFrame()\n",
+                    "csv_input =  \"QmVmb3JlXG5DT08=\"\n",
+                    "print('size of csv_input is:' + str(sys.getsizeof(csv_input)) + ' bytes')\n",
+                    "bytes = base64.b64decode(csv_input).decode('unicode_escape')\n",
+                    "df_input = pd.read_csv(io.StringIO(bytes), na_values='!#NULL#!')\n",
+                    "\n",
+                    "# for local develop\n",
+                    "# # Insert IP of Sisense instance\n",
+                    "# os.environ['API_GATEWAY_EXTERNAL_SERVICE_HOST'] = \"X.X.X.X\"\n",
+                    "# # Insert Port of Sisense instance\n",
+                    "# os.environ['API_GATEWAY_EXTERNAL_SERVICE_PORT'] = \"30845\"\n",
+                    "# # Insert Cookie received by Sisense REST API - '/authentication/tokens/api'\n",
+                    "# os.environ['Cookie'] = \"XXX\""
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Getting Started\n",
+                    "\n",
+                    "Welcome to the AI-model (GPT) Widget Summary Notebook.  \n",
+                    "\n",
+                    "This notebook shows how to summarize widget data with GPT model. Using this notebook it is possible to:\n",
+                    "1. retrieve widget data in Sisense and generate summary with GPT model.\n",
+                    "\n",
+                    "\n",
+                    "Widget summarization from Sisense can be done in 2 ways:\n",
+                    "1. Specify the dashboard and widget name in the prompt question (will use the data model connected to the dashboard) ([summarize dashboard sample healthcare widget top diagnosis])\n",
+                    "1. Specify the dashboard, widget and model name in the prompt question (will use the data model in prompt) ([dashboard sample healthcare widget top diagnosis model sample healthcare])\n",
+                    "1. apply validation on prompt entities and map to Sisense elements ([model sample healthcare] will be mapped to [Sample Healthcare]), this option can be skipped and is determined by the notebook parameter [to_validate_entities_from_question] if true, validation will occur.\n",
+                    "\n",
+                    "    \n",
+                    "---\n",
+                    "\n",
+                    "#### Jupyter Notebooks\n",
+                    "If you are not familiar with Jupyter Notebooks, we suggest reading about it [here](https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/What%20is%20the%20Jupyter%20Notebook.html).\n",
+                    "\n",
+                    "Get to know the Basics of Jupyter Notebooks, including how to add a New Notebook manually to the Jupyter Server [here](https://jupyter-notebook.readthedocs.io/en/stable/examples/Notebook/Notebook%20Basics.html).\n",
+                    "\n",
+                    "---\n",
+                    "\n",
+                    "This Tutorial shows the following basic principles:\n",
+                    "1. Examples for API parameters\n",
+                    "1. How to parse the prompt question and extract sisense data info.\n",
+                    "1. How to parse GPT response\n",
+                    "1. how to return the response in html format\n",
+                    "\n",
+                    "---\n",
+                    "## Notebook Flow\n",
+                    "\n",
+                    "![./BloxAIFlows-SummarizeWidget.png](./BloxAIFlows-SummarizeWidget.png)\n",
+                    "---\n",
+                    "\n",
+                    "## Content\n",
+                    "1. [Test Cell](#Test-Cell)\n",
+                    "1. [Imports](#Imports)\n",
+                    "1. [Additional Parameters](#Additional-Parameters)\n",
+                    "1. [Initialize Global Variables](#Initialize-Global-Variables)\n",
+                    "2. [Search Fields In Sisense](#Search-Fields-In-Sisense)\n",
+                    "3. [Ask AI Model Summary Questions](#Ask-AI-Model-Summary-Questions)\n",
+                    "4. [Return HTML Result](#Return-HTML-Result)\n",
+                    "\n",
+                    "## How to run the notebook\n",
+                    "There are two options to execute this notebook, the first, which is the default one is via Jupyter server in Sisense instance. We refer this option as the \"Remote\" option.\n",
+                    "\n",
+                    "The second one is \"local\" execution via local IDE.\n",
+                    "\n",
+                    "The default behavior for the code in this notebook is to run in remote.\n",
+                    "To run it locally, some code changes are required. To apply the changes, you can uncomment the code under the title - \"for local develop\".\n",
+                    "\n",
+                    "The changes are in the following cells:\n",
+                    "1. [Test Cell](#Test-Cell)\n",
+                    "    Insert the IP of Sisense instance to environment variable - \"API_GATEWAY_EXTERNAL_SERVICE_HOST\"\n",
+                    "    Insert the Port of Sisense instance to environment variable - \"API_GATEWAY_EXTERNAL_SERVICE_PORT\"\n",
+                    "    Insert authentication token for Sisense user to environment variable - \"Cookie\" (How to get Sisense Authentication token is detailed explained [here](https://gitlab.sisense.com/SisenseTeam/DataSciense/bloxai/-/blob/master/README.md))\n",
+                    "2. [Imports](#Imports)\n",
+                    "    Change the import statements to local repository structure\n",
+                    "3. [Additional Parameters](#Additional-Parameters)\n",
+                    "    Change to extract authentication token from environment variable - \"Cookie\""
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Test Cell\n",
+                    "\n",
+                    "The First notebook cell is a Test Cell. "
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "### What is a Test Cell ?\n",
+                    "The additional parameters in the Test Cell are sample values. Its purpose is to mimic the additional parameters passed to the notebook from the Sisense Data Model build process. By having this test cell, the notebook can be run independently of the build process for debugging or editing purposes.   \n",
+                    "When the notebook is executed from the Sisense build process, the test cell is skipped and the additional parameters are passed to the notebook downstream as a JSON string.  \n",
+                    "You can change the Test cell location by changing its value in the notebook manifest. The default value is always the first notebook cell (cell 0).   \n",
+                    "\n",
+                    "> \"cellsDisable\": [0]"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Imports"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "import pandas as pd\n",
+                    "import json\n",
+                    "import re\n",
+                    "\n",
+                    "# for remote develop\n",
+                    "from AIIntegration import AIIntegration\n",
+                    "from AIUtils import AIUtils\n",
+                    "from InferenceQuestionType import QType\n",
+                    "\n",
+                    "# for local develop\n",
+                    "# from src.custom_code_notebooks.AIIntegration import AIIntegration\n",
+                    "# from src.custom_code_notebooks.AIUtils import AIUtils\n",
+                    "# from src.custom_code_notebooks.InferenceQuestionType import QType"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Additional Parameters\n",
+                    "\n",
+                    "Load the additional parameters passed from the query process or those initialized in the Test Cell above."
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "In this example multiple parameters are passed to the notebook:\n",
+                    "1. question: a prompt question from the user (\"please summarize dashboard sample healthcare widget top diagnosis\")\n",
+                    "1. widgetId: the widget id of the widget requesting the custom code notebook excecution\n",
+                    "1. model_name: the model name of the dashboard (and widget) requesting the custom code notebook excecution \n",
+                    "1. to_validate_entities_from_question: boolean, true if validation on prompt entities required\n",
+                    "1. cookie: sisense user authentication token"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "print (additional_parameters)\n",
+                    "add_param = json.loads(additional_parameters,strict=False)\n",
+                    "\n",
+                    "orig_question = add_param['question']\n",
+                    "model_name = add_param['model_name']\n",
+                    "inputWidgetId = add_param['widgetId']\n",
+                    "\n",
+                    "to_validate_entities_from_question = True\n",
+                    "if \"to_validate_entities_from_question\" in add_param:\n",
+                    "    to_validate_entities_from_question = add_param['to_validate_entities_from_question']\n",
+                    "\n",
+                    "# for remote develop\n",
+                    "cookie = add_param['cookie']\n",
+                    "# for local develop\n",
+                    "# cookie = os.getenv(\"Cookie\")"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Initiaize global variables\n",
+                    "\n",
+                    "the next cell will initialize the following variables:\n",
+                    "**abort** - boolean value, indicate if the process got an exception or unexpected behavior and should stop execution.\n",
+                    "\n",
+                    "**df_result** - dataFrame that will contain the notebook's output, the default value will indicate that 'Something went wrong'.\n",
+                    "\n",
+                    "**model** - data model object- corresponding to model_name parameter.\n",
+                    "\n",
+                    "**oai** - a connection to ai integration library\n",
+                    "\n",
+                    "**utils** - a connection to utils library, contain a logger array that used as time tracking for performance logging. also contain a logger array that used as query tracker for both AI model and Jaql queries.\n"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "pycharm": {
+                        "is_executing": true
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "abort = False\n",
+                    "utils = AIUtils(inputWidgetId, model_name, add_param, cookie)\n",
+                    "utils.add_time('Start')\n",
+                    "\n",
+                    "df_result = pd.DataFrame(data=['Something went wrong'], columns=['Error'])\n",
+                    "\n",
+                    "model = utils.get_model(model_name)\n",
+                    "datamodelId = model['oid']\n",
+                    "\n",
+                    "datasetId = model['datasets'][0]['oid']\n",
+                    "\n",
+                    "\n",
+                    "utils.add_time('before import')\n",
+                    "oai = AIIntegration(utils)\n",
+                    "utils.add_time('After import')\n",
+                    "\n",
+                    "\n",
+                    "utils.write_text_to_log_updates('<H1>AI start working on widget summary</H1>')"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Search Fields In Sisense\n",
+                    "Query data from Sisense widget\n",
+                    "## Steps:\n",
+                    "1. Identify question type from prompt\n",
+                    "2. Identify entities in the prompt\n",
+                    "3. Get relevant dashboard/widget candidates from Sisense\n",
+                    "4. Identify the candidates that best fit to prompt entities\n",
+                    "5. Query data from Sisense"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "scrolled": false,
+                    "pycharm": {
+                        "is_executing": true
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "options = [QType.TypeDashboardWidget,QType.TypeModelDashboardWidget]\n",
+                    "if not to_validate_entities_from_question:\n",
+                    "    options = [QType.TypeDashboardWidget]\n",
+                    "[jaql, info, question_type_object] = oai.get_elements(model_name,orig_question,options, to_validate_entities_from_question)\n",
+                    "utils.write_log_updates()\n",
+                    "doid = question_type_object.sisense_dashboard_element[\"doid\"]\n",
+                    "woid = question_type_object.sisense_widget_element[\"woid\"]\n",
+                    "\n",
+                    "if info[0].startswith('Error'):\n",
+                    "    df_result = oai.handle_error_in_element_extraction(info[0])\n",
+                    "    "
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Ask AI Model Summary Questions\n"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "is_indicator_widget_data = False\n",
+                    "dashboard_name = utils.get_dashboard_title(doid)\n",
+                    "wtype, widget_title = utils.get_widget_type_and_title(doid, woid)\n",
+                    "\n",
+                    "# data from indicator widget require special parsing      \n",
+                    "if wtype=='indicator':\n",
+                    "    is_indicator_widget_data = True  \n",
+                    "abort, df_result = oai.get_df_from_jaql(jaql, model_name, is_indicator_widget_data) \n",
+                    "df_result_as_csv = df_result.to_csv(index=False)\n",
+                    "\n",
+                    "if not abort:\n",
+                    "    response = oai.get_widget_summary(df_result_as_csv, wtype, widget_title, dashboard_name)    \n",
+                    "    print (response)"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Return HTML Result\n"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "vec = [re.sub(r'\\n',r'<br>',response)]\n",
+                    "df_result = pd.DataFrame(data=vec, columns=['Value'])\n",
+                    "\n",
+                    "df_result = utils.generate_html_result(re.sub(r'\\n',r'<br>',response), df_result)"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "df_result"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# from IPython.display import display, HTML\n",
+                    "# display(HTML(\"<html>\" + df_result['output'][0]+\"</html>\"))"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": []
+            }
+        ],
+        "metadata": {
+            "kernelspec": {
+                "display_name": "Python 3 (ipykernel)",
+                "language": "python",
+                "name": "python3"
+            },
+            "language_info": {
+                "codemirror_mode": {
+                    "name": "ipython",
+                    "version": 3
+                },
+                "file_extension": ".py",
+                "mimetype": "text/x-python",
+                "name": "python",
+                "nbconvert_exporter": "python",
+                "pygments_lexer": "ipython3",
+                "version": "3.9.15"
+            }
+        },
+        "nbformat": 4,
+        "nbformat_minor": 4
+    }
+}

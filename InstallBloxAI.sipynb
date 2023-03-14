@@ -1,0 +1,550 @@
+{
+    "description": "Install and Uninstall Blox AI",
+    "icon": "",
+    "cellsDisable": [
+        0
+    ],
+    "language": "Python",
+    "mode": "Full",
+    "serverUrl": "customcode:8888",
+    "timeout": 0,
+    "group": "Installation",
+    "isActive": true,
+    "isSystem": true,
+    "id": "newNotebook1",
+    "displayName": "Install BloxAI",
+    "codePath": "/work/storage_notebooks/custom_code_notebooks/notebooks/newNotebook1/newNotebook1.ipynb",
+    "additionalParameters": [
+        {
+            "description": "Add the Operation:\nInstall \nUnInstall",
+            "name": "operation",
+            "send": true,
+            "title": "operation",
+            "type": "text"
+        },
+        {
+            "description": "OpenAI API KEY:",
+            "name": "AIAPIKEY",
+            "send": true,
+            "title": "AIAPIKEY",
+            "type": "text"
+        }
+    ],
+    "columns": [
+        {
+            "name": "example",
+            "id": "example",
+            "type": 2
+        }
+    ],
+    "notebookCode": {
+        "cells": [
+            {
+                "cell_type": "code",
+                "execution_count": 2,
+                "metadata": {
+                    "pycharm": {
+                        "is_executing": false,
+                        "name": "#%% \n"
+                    },
+                    "slideshow": {
+                        "slide_type": "slide"
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "# Test Cell\n",
+                    "# When the notebook is executed by the widget, this cell is ignored. \n",
+                    "# See the `Test Cell` section below for further details.\n",
+                    "import pandas as pd\n",
+                    "import SisenseAPI\n",
+                    "import sys\n",
+                    "import os\n",
+                    "import base64\n",
+                    "import io\n",
+                    "import csv\n",
+                    "import json\n",
+                    "\n",
+                    "df_input = pd.DataFrame()\n",
+                    "\n",
+                    "# Enter the required operation [Install / UnInstall] and your AIAPIKEY (Ex: openAI Key)\n",
+                    "additional_parameters = '''{\"operation\":\"Install\",\"AIAPIKEY\":\"<ENTER_YOUR_KEY>\"}'''\n",
+                    "sisense_conn = SisenseAPI.SisenseAPI(sisense_user_authentication_token=\"XXX\", schema_id=\"\", query_building_cube=False, cube_name=\"XXX\", additional_parameters=\"{}\", is_token_cookie=True)"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": 3,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "#Workaround for release 2023.2\n",
+                    "sisense_conn.set_xsrf_token_header(sisense_conn.headers['Cookie'])"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": 4,
+                "metadata": {
+                    "pycharm": {
+                        "name": "#%%\n"
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "import os\n",
+                    "import json\n",
+                    "import re\n",
+                    "import requests\n",
+                    "import urllib.parse\n",
+                    "\n",
+                    "add_param = json.loads(additional_parameters)\n",
+                    "operation = add_param['operation']\n",
+                    "AIAPIKEY = add_param['AIAPIKEY']\n",
+                    "headers = {\n",
+                    "    'Cookie': sisense_conn.headers['Cookie'],\n",
+                    "    'X-XSRF-TOKEN': sisense_conn.headers['X-XSRF-TOKEN'],\n",
+                    "}\n",
+                    "sisense_base_url = 'http://' + os.environ['API_GATEWAY_EXTERNAL_SERVICE_HOST'] + ':' + os.environ['API_GATEWAY_EXTERNAL_SERVICE_PORT']\n"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Download ai-integration-examples files from S3"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "pycharm": {
+                        "name": "#%%\n"
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "if operation == 'Install':\n",
+                    "    !rm -rf ./ai-integration-examples\n",
+                    "    !wget https://data.sisense.com/linux/custom-transformation/ai-integration-examples.tgz -O ./ai-integration-examples.tgz\n",
+                    "    !tar fxz ./ai-integration-examples.tgz\n",
+                    "if operation == 'UnInstall':\n",
+                    "    !rm -rf ./ai-integration-examples ./ai-integration-examples.tgz\n",
+                    "df_result = df_input"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Get CustomCode Notebooks that already exist"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "res = sisense_conn.call_api('GET','/api/v1/notebooks?notebookType=CustomCodeTransformation')\n",
+                    "current_trans = json.loads(res.text)\n",
+                    "for i in current_trans:\n",
+                    "    print (i['id'],i['uuid'],i['codePath'])\n",
+                    "    print (i)"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle CustomCode notebooks"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "destination_full_path = '/opt/sisense/storage/notebooks/custom_code_notebooks/notebooks/'\n",
+                    "source_notebook_files_path = './ai-integration-examples/custom_code_notebooks'\n",
+                    "if operation == 'Install':\n",
+                    "    notebook_import_res = {}\n",
+                    "    # import notebok into Sisense    \n",
+                    "    for dir_name in os.listdir(source_notebook_files_path):\n",
+                    "        path = os.path.join(source_notebook_files_path, dir_name)\n",
+                    "        if not os.path.isdir(path):\n",
+                    "            continue\n",
+                    "            \n",
+                    "        for fname in os.listdir(path):                   \n",
+                    "            if \".sipynb\" in fname:\n",
+                    "                print(path +'/'+ fname)                \n",
+                    "                with open(path +'/'+ fname) as f:\n",
+                    "                    data = json.load(f)    \n",
+                    "                    data['notebookType'] = \"CustomCodeTransformation\"\n",
+                    "                    res = sisense_conn.call_api('POST','/api/v1/notebooks',payload=data)\n",
+                    "                    print (res)\n",
+                    "                    print (res.text)\n",
+                    "                    notebook_import_res[fname] = json.loads(res.text)\n",
+                    "                    \n",
+                    "    # move notebook flow image to notebook dir                \n",
+                    "    for dir_name in os.listdir(source_notebook_files_path):\n",
+                    "        path = os.path.join(source_notebook_files_path, dir_name)\n",
+                    "        if not os.path.isdir(path):\n",
+                    "            continue\n",
+                    "            \n",
+                    "        for fname in os.listdir(path):\n",
+                    "            if \".png\" in fname:\n",
+                    "                source_image_path = path +'/'+ fname\n",
+                    "                destination_image_path = destination_full_path+dir_name\n",
+                    "                os.system(f\"cp -R {source_image_path} {destination_image_path}\")\n",
+                    "                print (f'copying notebook flow image: {source_image_path}->{destination_image_path}')                                        \n",
+                    "            \n",
+                    "# we separete the above two steps - since we don't want to override the dircetories.  \n",
+                    "\n",
+                    "current_notebooks_name = [\n",
+                    "    'Data Search',\n",
+                    "    'Dashboard Summary',\n",
+                    "    'Create Relations',\n",
+                    "    'WidgetSummary',\n",
+                    "    'SuggestRelation'\n",
+                    "]\n",
+                    "if operation == 'UnInstall':\n",
+                    "    for i in current_trans:\n",
+                    "        if i['notebookType'] == 'CustomCodeTransformation':\n",
+                    "            if i['displayName'] in current_notebooks_name:\n",
+                    "                url_suffix = '/api/v1/notebooks/'+i['uuid']\n",
+                    "                url = sisense_base_url + url_suffix\n",
+                    "                res = requests.delete( url,  headers= sisense_conn.headers , timeout=350)\n",
+                    "                print(res)              \n",
+                    "                path_to_remove = destination_full_path+i['id']\n",
+                    "                os.system(f'rm -rf {path_to_remove}')               \n",
+                    "                print ('deleteing: ', i['displayName'],i['uuid'], path_to_remove)       "
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle Blox files"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "## Push blox actions\n",
+                    "blox_files_path = \"./ai-integration-examples/blox_examples/action_snippets\"\n",
+                    "\n",
+                    "bloxToNotebook = {\n",
+                    "    \"bloxDataSearch\": \"DataSearch.sipynb\",\n",
+                    "    \"bloxDataConnect\": \"CreateRelations.sipynb\",\n",
+                    "    \"bloxWidgetSummary\": \"WidgetSummary.sipynb\",\n",
+                    "    \"bloxDataSuggest\": \"SuggestRelation.sipynb\"\n",
+                    "}\n",
+                    "bloxType = {\n",
+                    "    \"DataSuggest\",\n",
+                    "    \"DataSearch\",\n",
+                    "    \"DataConnect\",\n",
+                    "    \"WidgetSummary\",\n",
+                    "    \"DashboardSummary\"\n",
+                    "}\n",
+                    "if operation == 'Install':\n",
+                    "    for fname in os.listdir(blox_files_path):\n",
+                    "        if \".json\" in fname and \"blox\" in fname:\n",
+                    "            print (fname)\n",
+                    "            with open(blox_files_path +'/'+ fname) as f:\n",
+                    "                data = json.load(f)\n",
+                    "                res = sisense_conn.call_api('POST','/api/v1/saveCustomAction/BloX',payload=data)\n",
+                    "                print (res)\n",
+                    "if operation == 'UnInstall':\n",
+                    "    res = sisense_conn.call_api('GET','/api/v1/getSnippets/BloX?snippetType=actions')\n",
+                    "    res_json = json.loads(res.text)\n",
+                    "    for i in res_json:\n",
+                    "        if i['title'] == 'My Actions':\n",
+                    "            for element in i['elements']:\n",
+                    "                print (element)\n",
+                    "                if element['title'] in bloxType:\n",
+                    "                    data = { \"type\": element['title'] }\n",
+                    "                    res = sisense_conn.call_api('POST','/api/v1/deleteCustomAction/BloX',payload=data)\n",
+                    "                    print (element['title'])\n",
+                    "                    print (res)"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle dashboard"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "dashboard_file_path = './ai-integration-examples/common/BloxAI.dash'\n",
+                    "if operation == 'Install':\n",
+                    "    with open(dashboard_file_path) as f:\n",
+                    "        data = json.load(f)    \n",
+                    "        res = sisense_conn.call_api('POST','/api/v1/dashboards/import/bulk',payload=[data])\n",
+                    "        print(res.text)\n",
+                    "if operation == 'UnInstall':\n",
+                    "    res = sisense_conn.call_api('GET','/api/v1/dashboards')\n",
+                    "    res_json = json.loads(res.text)\n",
+                    "    for i in res_json:\n",
+                    "        if i['title'] == 'Blox AI':\n",
+                    "            url_suffix = '/api/v1/dashboards/'+i['oid']\n",
+                    "            url = sisense_base_url + url_suffix\n",
+                    "            res = requests.delete( url,  headers= sisense_conn.headers , timeout=350)\n",
+                    "            print (res.text)"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle custom python libraries\n",
+                    "First, we will uncomment OpenAI API import in AIQueries.py file.\n",
+                    "Later we will move the files to their relevant location."
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "ai_queries_file_name = './ai-integration-examples/custom_code_notebooks/utils/AIQueries.py'\n",
+                    "with open(ai_queries_file_name, 'r+') as file: \n",
+                    "    data = file.read()\n",
+                    "    res = data.replace('# Un comment OPENAI #','')\n",
+                    "    file.seek(0) \n",
+                    "    file.write(res) \n",
+                    "    file.truncate() "
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "custom_libraries = ['AIIntegration.py', 'AIQueries.py', 'AIUtils.py', 'InferenceQuestionType.py']\n",
+                    "destination_full_path = '/opt/sisense/storage/notebooks/custom_code_notebooks/'\n",
+                    "source_path = \"./ai-integration-examples/custom_code_notebooks/utils/\" \n",
+                    "\n",
+                    "for custom_library in custom_libraries:\n",
+                    "    custom_library_destination_path = destination_full_path+custom_library\n",
+                    "    custom_library_source_path = source_path+custom_library\n",
+                    "    if operation == 'Install':\n",
+                    "        os.system(f\"cp -R {custom_library_source_path} {custom_library_destination_path}\")\n",
+                    "    if operation == 'UnInstall': \n",
+                    "        os.system(f'rm -rf {custom_library_destination_path}')"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle default data model - AITransformation\n",
+                    "import empty cube for calling transformation"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "data_model_path = './ai-integration-examples/common/AITransformation.sdata'\n",
+                    "if operation == 'Install':\n",
+                    "\n",
+                    "    url_suffix = '/api/v2/datamodel-imports/stream/full?newTitle=AITransformation'\n",
+                    "    url = sisense_base_url + url_suffix\n",
+                    "    headers = {\n",
+                    "        'Cookie': sisense_conn.headers['Cookie'],\n",
+                    "        'X-XSRF-TOKEN': sisense_conn.headers['X-XSRF-TOKEN'],\n",
+                    "        'Content-Encoding': 'gzip'\n",
+                    "    }\n",
+                    "    files = {'fileToUpload': open(data_model_path, 'rb')}\n",
+                    "    res = requests.post( url,  headers= headers , files = files , timeout=350)\n",
+                    "\n",
+                    "    print (res)\n",
+                    "    print (res.text)\n",
+                    "if operation == 'UnInstall':\n",
+                    "    res = sisense_conn.call_api('POST','/api/elasticubes/LocalHost/AITransformation/stop')\n",
+                    "    print (res.text)\n",
+                    "    res = sisense_conn.call_api('GET','/api/v2/datamodels/schema')\n",
+                    "    res_json = json.loads(res.text)\n",
+                    "    for i in res_json:\n",
+                    "        if i['title'] == \"AITransformation\":\n",
+                    "            print (i['oid'],i['title'])\n",
+                    "            url_suffix = '/api/v2/datamodels/'+i['oid']\n",
+                    "            url = sisense_base_url + url_suffix\n",
+                    "            res = requests.delete( url,  headers= sisense_conn.headers , timeout=350)\n",
+                    "            print(res.text)"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle Blox images"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": 12,
+                "metadata": {},
+                "outputs": [
+                    {
+                        "name": "stdout",
+                        "output_type": "stream",
+                        "text": [
+                            "mkdir: cannot create directory ‘/opt/sisense/storage/branding/BloxAI’: File exists\r\n"
+                        ]
+                    }
+                ],
+                "source": [
+                    "if operation == 'Install':\n",
+                    "    !mkdir /opt/sisense/storage/branding/BloxAI\n",
+                    "    !cp ./ai-integration-examples/blox_examples/images/*.png /opt/sisense/storage/branding/BloxAI/\n",
+                    "if operation == 'UnInstall':\n",
+                    "    !rm -rf /opt/sisense/storage/branding/BloxAI"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "\n",
+                    "# Handle BloxAISummary plugin"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": 13,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "if operation == 'Install':\n",
+                    "    plugins_path = './ai-integration-examples/blox_examples/plugin/BloxAISummary/bloxAI_summary.zip'\n",
+                    "    url_suffix = '/api/v1/plugins/import?overwrite=true'\n",
+                    "    url = sisense_base_url + url_suffix\n",
+                    "    headers = {\n",
+                    "        'Cookie': sisense_conn.headers['Cookie'],\n",
+                    "        'X-XSRF-TOKEN': sisense_conn.headers['X-XSRF-TOKEN'],\n",
+                    "        'Content-Encoding': 'gzip'\n",
+                    "    }\n",
+                    "    files = {'plugins': open(plugins_path, 'rb')}\n",
+                    "    res = requests.post( url,  headers= headers , files = files , timeout=350)\n",
+                    "    print (res.text)\n",
+                    "if operation == 'UnInstall':\n",
+                    "    url_suffix = '/api/v1/plugins/BloxAISummary%2FBloxAISummary'\n",
+                    "    url = sisense_base_url + url_suffix\n",
+                    "    res = requests.delete( url,  headers= sisense_conn.headers , timeout=350)\n"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Handle AI-API-KEY\n",
+                    "insert AI-API-KEY to environment configuration"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "def set_config_value(setting_dict):  # {<option_name>: <value>}\n",
+                    "    # zk.set_path_value doesn't work from scratch. Settings can be changed manually or via API\n",
+                    "    for option_name, value in setting_dict.items():\n",
+                    "        print('Set config {} value {}'.format(option_name, value))\n",
+                    "        payload = {'{}.value'.format(option_name): value, '{}.setbyuser'.format(option_name): True}\n",
+                    "        resp = sisense_conn.call_api(http_method='POST', payload=payload,\n",
+                    "                                         url_suffix='/app/configuration/configurations/service/custom-code')\n",
+                    "        return resp\n",
+                    "settings = {\n",
+                    "    \"AI-API-KEY\": AIAPIKEY\n",
+                    "}\n",
+                    "set_config_value(settings)\n"
+                ]
+            },
+            {
+                "cell_type": "markdown",
+                "metadata": {},
+                "source": [
+                    "# Install required libraries "
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": [
+                    "# Uncomment the code below in order to install the openai package\n",
+                    "# try:\n",
+                    "#     import openai\n",
+                    "# except ImportError:\n",
+                    "#     !pip install openai\n",
+                    "\n",
+                    "# try:\n",
+                    "#     import strenum\n",
+                    "# except ImportError:\n",
+                    "#     !pip install StrEnum"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {
+                    "pycharm": {
+                        "name": "#%%\n"
+                    }
+                },
+                "outputs": [],
+                "source": [
+                    "# monitor the df_result datatype (Optional)\n",
+                    "df_result.dtypes"
+                ]
+            },
+            {
+                "cell_type": "code",
+                "execution_count": null,
+                "metadata": {},
+                "outputs": [],
+                "source": []
+            }
+        ],
+        "metadata": {
+            "kernelspec": {
+                "display_name": "Python 3 (ipykernel)",
+                "language": "python",
+                "name": "python3"
+            },
+            "language_info": {
+                "codemirror_mode": {
+                    "name": "ipython",
+                    "version": 3
+                },
+                "file_extension": ".py",
+                "mimetype": "text/x-python",
+                "name": "python",
+                "nbconvert_exporter": "python",
+                "pygments_lexer": "ipython3",
+                "version": "3.9.15"
+            }
+        },
+        "nbformat": 4,
+        "nbformat_minor": 4
+    }
+}

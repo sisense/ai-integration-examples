@@ -1,0 +1,10 @@
+{
+  "mode": "install",
+  "ip": "",
+  "sisense_port": "",
+  "user": "",
+  "password": "",
+  "sisense_username": "",
+  "sisense_password": "",
+  "lm_api_key": ""
+}

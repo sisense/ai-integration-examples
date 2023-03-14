@@ -1,0 +1,669 @@
+{
+  "title": "Blox AI",
+  "desc": "",
+  "source": null,
+  "type": "dashboard",
+  "style": {
+    "name": "vivid",
+    "palette": {
+      "colors": [
+        "#A3D6AC",
+        "#DFE47B",
+        "#99C75C",
+        "#359575",
+        "#008066",
+        "#4189A5",
+        "#76BDD0",
+        "#A1CFD5",
+        "#889BA3",
+        "#EE6F5C",
+        "#EE995C",
+        "#EED75C",
+        "#B9D7B6"
+      ],
+      "name": "Meadow",
+      "sortOrder": 20,
+      "isSystem": true
+    }
+  },
+  "layout": {
+    "instanceid": "C09A8-3DD7-B6",
+    "type": "columnar",
+    "columns": [
+      {
+        "width": 100,
+        "cells": [
+          {
+            "subcells": [
+              {
+                "elements": [
+                  {
+                    "minHeight": 68,
+                    "maxHeight": 850,
+                    "minWidth": 128,
+                    "maxWidth": 2048,
+                    "height": 752.094,
+                    "defaultWidth": 512,
+                    "widgetid": "63ac236b7a19050033efd91a"
+                  }
+                ],
+                "width": 99,
+                "stretchable": false,
+                "pxlWidth": 1424.61,
+                "index": 0
+              },
+              {
+                "elements": [
+                  {
+                    "minHeight": 64,
+                    "maxHeight": 2048,
+                    "minWidth": 64,
+                    "maxWidth": 2048,
+                    "height": "880px",
+                    "defaultWidth": 128,
+                    "widgetid": "63bebc62c37de30034c1abf3"
+                  }
+                ],
+                "width": 1,
+                "stretchable": false,
+                "pxlWidth": 14.375,
+                "index": 1
+              }
+            ]
+          }
+        ],
+        "pxlWidth": 1439,
+        "index": 0
+      }
+    ],
+    "container": {}
+  },
+  "original": null,
+  "dataExploration": false,
+  "lastOpened": null,
+  "oid": "63ac236b7a19050033efd919",
+  "datasource": {
+    "fullname": "localhost/Sample ECommerce",
+    "id": "localhost_aSampleIAAaECommerce",
+    "address": "LocalHost",
+    "database": "aSampleIAAaECommerce",
+    "live": false,
+    "title": "Sample ECommerce"
+  },
+  "filters": [],
+  "editing": true,
+  "settings": {
+    "autoUpdateOnFiltersChange": true
+  },
+  "allowChangeSubscription": false,
+  "isPublic": null,
+  "previewLayout": [],
+  "filterToDatasourceMapping": {},
+  "parentFolder": null,
+  "script": "/*\nWelcome to your Dashboard's Script.\n\nTo learn how you can access the Widget and Dashboard objects, see the online documentation at https://sisense.dev/guides/js/extensions\n*/\ndashboard.on('initialized', function(dashboard) {\n\n\tdashboard.layout.columns[0].cells[0].subcells[0].pxlWidth = dashboard.layout.columns[0].cells[0].subcells[0].pxlWidth + dashboard.layout.columns[0].cells[0].subcells[1].pxlWidth - 5;\n\tdashboard.layout.columns[0].cells[0].subcells[1].pxlWidth = 5;\n\n\tdashboard.layout.columns[0].cells[0].subcells[0].width = 99;\n\tdashboard.layout.columns[0].cells[0].subcells[1].width = 1;\n\n\t\n\t\n\t\n})\n\n",
+  "widgets": [
+    {
+      "title": "AI Connect",
+      "type": "BloX",
+      "subtype": "BloX",
+      "oid": "63ac236b7a19050033efd91a",
+      "desc": null,
+      "source": null,
+      "datasource": {
+        "fullname": "localhost/Sample ECommerce",
+        "id": "localhost_aSampleIAAaECommerce",
+        "address": "LocalHost",
+        "database": "aSampleIAAaECommerce",
+        "live": false,
+        "title": "Sample ECommerce"
+      },
+      "selection": null,
+      "metadata": {
+        "ignore": {
+          "dimensions": [],
+          "ids": [],
+          "all": false
+        },
+        "panels": [
+          {
+            "name": "Items",
+            "items": []
+          },
+          {
+            "name": "Values",
+            "items": []
+          },
+          {
+            "name": "filters",
+            "items": []
+          }
+        ],
+        "usedFormulasMapping": {}
+      },
+      "style": {
+        "currentCard": {
+          "style": "",
+          "script": "",
+          "title": "",
+          "showCarousel": true,
+          "body": [
+            {
+              "type": "Container",
+              "width": "90%",
+              "style": {
+                "margin": "0 auto"
+              },
+              "items": [
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "type": "ColumnSet",
+                      "separator": false,
+                      "spacing": "default",
+                      "columns": [
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "TextBlock",
+                              "text": "Augment Data",
+                              "weight": "medium",
+                              "size": "large",
+                              "wrap": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "text": "<br>Augment and enrich your data with information from a generative language model ",
+                              "size": "small",
+                              "wrap": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "spacing": "extraLarge",
+                              "text": "Enrich your data with questions like",
+                              "weight": "default",
+                              "wrap": true,
+                              "separator": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "spacing": "large",
+                              "text": "\"Give me the list of best 5 movies this year. include the movie length, the date it went out and language of the movie\"",
+                              "size": "small",
+                              "color": "grey",
+                              "wrap": true
+                            },
+                            {
+                              "type": "TextBlock",
+                              "spacing": "large",
+                              "text": "\"Which of the following companies got acquired between 2018 to 2022 [Dashboard \"Customer Base\" widget Customers column name]\"",
+                              "size": "small",
+                              "color": "grey",
+                              "wrap": true
+                            },
+                            {
+                              "type": "Container",
+                              "width": "30%",
+                              "items": [
+                                {
+                                  "spacing": "large",
+                                  "type": "TextBlock",
+                                  "text": "Table Name      "
+                                },
+                                {
+                                  "spacing": "large",
+                                  "type": "Input.Text",
+                                  "id": "data.table",
+                                  "placeholder": "",
+                                  "defaultValue": "Temp",
+                                  "borderRadius": "4px",
+                                  "borderStyle": "none",
+                                  "backgroundColor": "#F4F4F8"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "Column",
+                          "items": [
+                            {
+                              "type": "Image",
+                              "height": "250px",
+                              "url": "branding/BloxAI/BloxAI.png",
+                              "horizontalAlignment": "center",
+                              "size": "stretch",
+                              "style": {
+                                "margin": "60px"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "items": [
+                    {
+                      "spacing": "large",
+                      "type": "TextBlock",
+                      "text": "Your Message",
+                      "weight": "medium",
+                      "wrap": true
+                    },
+                    {
+                      "spacing": "large",
+                      "type": "Input.Text",
+                      "id": "data.question",
+                      "placeholder": "Question",
+                      "defaultValue": "",
+                      "isMultiline": true,
+                      "rows": "2",
+                      "borderRadius": "4px",
+                      "borderStyle": "none",
+                      "backgroundColor": "#F4F4F8"
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "spacing": "extraLarge",
+                  "separator": "false",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "width": "100px",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "width": "70px",
+                          "url": "branding/BloxAI/AIsearch.png",
+                          "horizontalAlignment": "left",
+                          "size": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "20px",
+                      "items": []
+                    },
+                    {
+                      "type": "Column",
+                      "width": "100px",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "width": "80px",
+                          "url": "branding/BloxAI/Correlation.png",
+                          "horizontalAlignment": "center",
+                          "size": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "60px",
+                      "items": []
+                    },
+                    {
+                      "type": "Column",
+                      "width": "100px",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "width": "70px",
+                          "url": "branding/BloxAI/Connect.png",
+                          "horizontalAlignment": "center",
+                          "size": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "100px",
+                      "items": []
+                    },
+                    {
+                      "type": "Column",
+                      "width": "100px",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "width": "80px",
+                          "url": "branding/BloxAI/Widget_Summary.png",
+                          "horizontalAlignment": "center",
+                          "size": "stretch"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "70px",
+                      "items": []
+                    },
+                    {
+                      "type": "Column",
+                      "width": "100px",
+                      "items": [
+                        {
+                          "type": "Image",
+                          "width": "80px",
+                          "url": "branding/BloxAI/Dashboard_Summary.png",
+                          "horizontalAlignment": "left",
+                          "size": "stretch"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "ActionSet",
+                      "actions": [
+                        {
+                          "type": "DataSearch",
+                          "title": "Search",
+                          "data": {
+                            "question": "",
+                            "table": ""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "10px",
+                      "items": []
+                    },
+                    {
+                      "type": "ActionSet",
+                      "actions": [
+                        {
+                          "type": "DataSuggest",
+                          "title": "Suggest Relation",
+                          "data": {
+                            "question": "",
+                            "table": ""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "10px",
+                      "items": []
+                    },
+                    {
+                      "type": "ActionSet",
+                      "actions": [
+                        {
+                          "type": "DataConnect",
+                          "title": "Connect Relation",
+                          "data": {
+                            "question": "",
+                            "table": ""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "60px",
+                      "items": []
+                    },
+                    {
+                      "type": "ActionSet",
+                      "actions": [
+                        {
+                          "type": "WidgetSummary",
+                          "title": "Widget Summary",
+                          "data": {
+                            "question": "",
+                            "table": ""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "width": "10px",
+                      "items": []
+                    },
+                    {
+                      "type": "ActionSet",
+                      "actions": [
+                        {
+                          "type": "DashboardSummary",
+                          "title": "Dashboard Summary",
+                          "data": {
+                            "question": "",
+                            "table": ""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "Container",
+                  "separator": true,
+                  "id": "outputContainer",
+                  "items": [
+                    {
+                      "spacing": "medium",
+                      "type": "TextBlock",
+                      "text": "Output  ",
+                      "color": "black"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "currentConfig": {
+          "fontFamily": "Open Sans",
+          "fontSizes": {
+            "default": 16,
+            "small": 14,
+            "medium": 22,
+            "large": 32,
+            "extraLarge": 50
+          },
+          "fontWeights": {
+            "default": 400,
+            "light": 100,
+            "bold": 800
+          },
+          "containerStyles": {
+            "default": {
+              "backgroundColor": "#ffffff",
+              "foregroundColors": {
+                "default": {
+                  "normal": "#3A4356"
+                },
+                "white": {
+                  "normal": "#ffffff"
+                },
+                "grey": {
+                  "normal": "#9EA2AB"
+                },
+                "orange": {
+                  "normal": "#f2B900"
+                },
+                "yellow": {
+                  "normal": "#ffcb05"
+                },
+                "black": {
+                  "normal": "#000000"
+                },
+                "lightGreen": {
+                  "normal": "#93c0c0"
+                },
+                "green": {
+                  "normal": "#2BCC7F"
+                },
+                "red": {
+                  "normal": "#FA5656"
+                },
+                "accent": {
+                  "normal": "#2E89FC"
+                },
+                "good": {
+                  "normal": "#54a254"
+                },
+                "warning": {
+                  "normal": "#e69500"
+                },
+                "attention": {
+                  "normal": "#cc3300"
+                }
+              }
+            }
+          },
+          "imageSizes": {
+            "default": 40,
+            "small": 40,
+            "medium": 80,
+            "large": 120
+          },
+          "imageSet": {
+            "imageSize": "medium",
+            "maxImageHeight": 100
+          },
+          "actions": {
+            "color": "",
+            "backgroundColor": "",
+            "maxActions": 5,
+            "spacing": "large",
+            "buttonSpacing": 20,
+            "actionsOrientation": "horizontal",
+            "actionAlignment": "right",
+            "margin": "0",
+            "showCard": {
+              "actionMode": "inline",
+              "inlineTopMargin": 16,
+              "style": "default"
+            }
+          },
+          "spacing": {
+            "default": 5,
+            "small": 5,
+            "medium": 10,
+            "large": 20,
+            "extraLarge": 40,
+            "padding": 0
+          },
+          "separator": {
+            "lineThickness": 1,
+            "lineColor": "#D8D8D8"
+          },
+          "factSet": {
+            "title": {
+              "size": "default",
+              "color": "default",
+              "weight": "bold",
+              "warp": true
+            },
+            "value": {
+              "size": "default",
+              "color": "default",
+              "weight": "default",
+              "warp": true
+            },
+            "spacing": 20
+          },
+          "supportsInteractivity": true,
+          "imageBaseUrl": "",
+          "height": 752.094
+        },
+        "currentCardName": "Form",
+        "narration": {
+          "enabled": false,
+          "display": "above",
+          "format": "bullets",
+          "verbosity": "medium",
+          "up_sentiment": "good",
+          "aggregation": "sum",
+          "labels": []
+        }
+      },
+      "instanceid": "41B77-3D3B-F9",
+      "options": {
+        "dashboardFiltersMode": "select",
+        "selector": true,
+        "title": false,
+        "drillTarget": "dummy",
+        "triggersDomready": true,
+        "autoUpdateOnEveryChange": true
+      },
+      "dashboardid": "63ac236b7a19050033efd919",
+      "viewState": {
+        "activeTab": "design"
+      },
+      "lastOpened": null,
+      "inProgress": 0,
+      "script": "/*\nWelcome to your Widget's Script.\n\nTo learn how you can access the Widget and Dashboard objects, see the online documentation at https://sisense.dev/guides/js/extensions\n*/\nwidget.on(\"ready\",function (widget,options) {\n\tif (widget.lastResult) {\n\t\t$('#outputContainer').html(widget.lastResult);\n\t}\n});\n\t\n\t",
+      "lastResult": ""
+    },
+    {
+      "title": "RICHTEXT_MAIN.TITLE",
+      "type": "richtexteditor",
+      "subtype": "richtexteditor",
+      "oid": "63bebc62c37de30034c1abf3",
+      "desc": null,
+      "source": null,
+      "datasource": {
+        "fullname": "localhost/Sample ECommerce",
+        "id": "localhost_aSampleIAAaECommerce",
+        "address": "LocalHost",
+        "database": "aSampleIAAaECommerce",
+        "live": false,
+        "title": "Sample ECommerce"
+      },
+      "selection": null,
+      "metadata": {
+        "ignore": {
+          "dimensions": [],
+          "ids": [],
+          "all": false
+        },
+        "panels": [],
+        "usedFormulasMapping": {}
+      },
+      "style": {
+        "content": {
+          "html": "<font size=\"5\">&nbsp;</font>",
+          "vAlign": "valign-middle",
+          "bgColor": "#ffffff",
+          "textAlign": "center"
+        }
+      },
+      "instanceid": "73572-2327-E5",
+      "options": {
+        "triggersDomready": true,
+        "hideFromWidgetList": true,
+        "disableExportToCSV": true,
+        "disableExportToImage": true,
+        "toolbarButton": {
+          "css": "add-rich-text",
+          "tooltip": "RICHTEXT_MAIN.TOOLBAR_BUTTON"
+        },
+        "selector": false,
+        "disallowSelector": true,
+        "disallowWidgetTitle": true,
+        "supportsHierarchies": false,
+        "dashboardFiltersMode": "filter"
+      },
+      "dashboardid": "63ac236b7a19050033efd919",
+      "lastOpened": null
+    }
+  ],
+  "hierarchies": []
+}
