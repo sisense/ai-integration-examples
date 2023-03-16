@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://www.sisense.com">
-    <img src="../Images/sisense_ai_logo.jpeg" alt="Logo">
+    <img src="../images/sisense_ai_logo.jpeg" alt="Logo">
   </a>
 
 </div>
@@ -63,7 +63,7 @@ Each library has its own responsibilities and functionalities:
 5. SisenseAPI - manage Sisense API connection.
 6. customcode_errors - manage custom code errors.
 
-## Folder Structure :cactus: <a name="Folder Structure"></a>
+## Folder Structure :cactus: 
 <details open="open">
   <summary>Folder Structure</summary>
 
@@ -107,7 +107,7 @@ Each library has its own responsibilities and functionalities:
 </details>
 
 <!-- Caching Component -->
-# Caching Component <a name="Caching Component"></a>
+# Caching Component 
 
 The caching component used to cache questions and responses from GPT - to speed the performance and efficiency.
 The caches files are stored as files within the notebook's directory (DashboardSummary1, WidgetSummary1, DataSearch1...)  
@@ -125,7 +125,7 @@ The used caches:
 For each cache there are 3 files: *.dir, *.bak, *.dat. If you wish to delete the cache, delete the corresponding files.
 
 <!-- USAGE -->
-# Usage <a name="Usage"></a>
+# Usage 
 We provide 5 use cases:
 
 1. **Search**: Enrich your data
@@ -135,7 +135,7 @@ We provide 5 use cases:
 1. **Dashboard Summary**: Return a short summary based on the data from all widgets in a dashboard
 
 <!-- Example-Usage -->
-### Example Usage Overview <a name="Example Usage Overview"></a>
+### Example Usage Overview 
 The table below holds example questions the tasks implemented for Sisense integration with GPT:
 
 Task | User Question Example                                                                                                              | Notebook name | Data source   | Writes data to a temp table | Result                                  |
@@ -148,10 +148,10 @@ Generate a short summary based on the data of a single widget in a dashboard | w
 Generate a short summary based on the data from all widgets in a dashboard | model "sample ecommerce" dashboard "sample ecommerce"  | DashboardSummary  | Sisense data | No     | output a textual summary     | 
 
 
-## Detailed Use Cases <a name="Detailed Use Cases"></a>
+## Detailed Use Cases 
 
 
-### Search <a name="Search"></a>
+### Search 
 Search is used to enrich your data by prompting the language model and integrating the results back into Sisense. The results are stored in a new table. (in a live Snowflake/Redshift model) 
 
 if you wish to trigger this notebook via Sisense UI see [instructions](../../blox_usage/Readme.md#**Search**)
@@ -181,7 +181,7 @@ v
 ---
 
 
-### Suggest Relation <a name="Suggest Relation"></a>
+### Suggest Relation 
 
 Use GPT to search the correct join relation between tables in your data model.
 
@@ -204,7 +204,7 @@ Return HTML Result | Create HTML result                                       | 
 
 
 
-### Connect Relation <a name="Connect Relation"></a>
+### Connect Relation 
 This functionality used to connect columns that were suggested by [Suggest Relation](#suggest-relation).
 
 if you wish to trigger this notebook via Sisense UI see [instructions](../../blox_usage/Readme.md#**Connect-Relation**)
@@ -225,7 +225,7 @@ Return HTML Result | Create HTML result                                       | 
 
 
 
-### Widget Summary <a name="Widget Summary"></a>
+### Widget Summary 
 Generate a summary based on the data presented in the widget.
 
 if you wish to trigger this notebook via Sisense UI see [instructions](../../blox_usage/Readme.md#**Widget-Summary**)
@@ -247,7 +247,7 @@ Return HTML Result | Create HTML result                                       | 
 
 ---
 
-### Dashboard Summary <a name="Dashboard Summary"></a>
+### Dashboard Summary 
 Generate summary based on the data presented in all the widgets in the dashboard.
 
 if you wish to trigger this notebook via Sisense UI see [instructions](../../blox_usage/Readme.md#**Dashboard-Summary**)
