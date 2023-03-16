@@ -394,7 +394,8 @@ utils.get_output_widget_jaql(table_name, types, data_df)
 <!-- RESOURCES -->
 ## Resources <a name="Resources"></a>
 **Blogs**   
-https://www.sisense.com/blog/supercharge-analytics-with-chatgpt/
+https://www.sisense.com/blog/supercharge-analytics-with-chatgpt/ 
+
 https://www.sisense.com/blog/how-to-make-bi-and-analytics-adoption-simple/
 
 **Webinars**   

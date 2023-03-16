@@ -1,7 +1,7 @@
-#openai==0.26.5
-StrEnum==0.4.9
-pandas==1.5.3
-jupyter-server==2.3.0
+#openai
+StrEnum
+pandas
+jupyter-server
 numpy
 requests
 python-dateutil
