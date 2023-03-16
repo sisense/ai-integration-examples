@@ -9,7 +9,7 @@
 <br />
 <div align="center">
   <a href="https://www.sisense.com">
-    <img src="../../../Images/sisense_ai_logo.jpeg" alt="Logo">
+    <img src="../Images/sisense_ai_logo.jpeg" alt="Logo">
   </a>
 
 </div>
@@ -19,23 +19,34 @@
 
 <br/>
 <!-- TABLE OF CONTENTS -->
-<details>
+<details open="open">
   <summary>Table of Contents</summary>
-
-  1. [Source Code Overview](#Source Code Overview)
-      1. [Folder Structure](#Folder Structure)
-  1. [Caching Component](#Caching Component)
-  1. [Usage](#Usage)
-      1. [Example Usage](#Example Usage)
-      1. [Detailed Use Case](#Detailed Use Case)
-          1. [Search](#Search)
-          1. [Suggest Relation](#Suggest Relation)
-          1. [Connect Relation](#Connect Relation)
-          1. [Widget Summary](#Widget Summary)
-          1. [Dashboard Summary](#Dashboard Summary)
-
+  <ol>
+    <li>
+      <a href="#source-code-overview">Source Code Overview</a>
+      <ul>
+        <li><a href="#folder-structure">Folder Structure</a></li>
+      </ul>
+    </li>
+    <li><a href="#caching-component">Caching Component</a></li>
+    <li><a href="#usage">Usage</a>
+    <ul>
+        <li><a href="#example-usage">Example Usage</a></li>
+        <li><a href="#detailed-use-case">Detailed Use Case</a>
+         <ul>
+            <li><a href="#search">Search</a></li>
+            <li><a href="#suggest-relation">Suggest Relation</a></li>
+            <li><a href="#connect-relation">Connect Relation</a></li>
+            <li><a href="#widget-summary">Widget Summary</a></li>
+            <li><a href="#dashboard-summary">Dashboard Summary</a></li>
+         </ul>
+        </li>        
+      </ul>
+    </li>
+  </ol>
 </details>
-  
+<br/>
+<br/>  
   
 <!-- Source Code Overview -->
 # Source Code Overview

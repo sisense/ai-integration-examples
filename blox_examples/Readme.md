@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://www.sisense.com">
-    <img src="../../../images/sisense_ai_logo.jpeg" alt="Logo">
+    <img src="../images/sisense_ai_logo.jpeg" alt="Logo">
   </a>
 </div>
 <br/>
@@ -82,7 +82,7 @@ The following examples show how language models can be integreated into Sisense 
 
 ### Prerequisites
 
-* An active Sisense account with a live model on Snowflake. No need to have a write permission on Snowflake read will be good enough.
+* An active Sisense account with a live model on Snowflake. No need to have write permission on Snowflake read will be good enough.
 [How to add a model](https://dtdocs.sisense.com/article/managing-data).
 * [OpenAI API key](https://openai.com/blog/openai-api/)
 

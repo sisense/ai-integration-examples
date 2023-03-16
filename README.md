@@ -17,45 +17,64 @@
 This project demonstrates how to bring the power of large scale language models directly into Sisense Fusion by connecting to GPT-3. We will show how to leverage the unique flexible capabilities of Sisense Fusion by building and running Python code from Sisense to phrase dynamic queries to GPT-3, automatically generating new database tables and relationships in Sisense based on the results from GPT-3.
 
 
-## Table of Contents
+
 <!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary>Table of Contents</summary>
-
-1. [About The Project](#About The Project)
-    1. [Folder Structure](#Folder Structure)
-    1. [Built With](#Built With)
-    1. [Prerequisites](#Prerequisites)
-    1. [Limitations](#Limitiations)
-1. [Getting Started](#Getting Started)
-    1. [Installation](#Installation)
-        1. [Installation for Remote Development](#Installation for Remote Development)
-        1. [Installation for Local Development](#Installation for Local Development)
-    1. [Extract Authentication Token From Sisense REST API](#Extract Authentication Token From Sisense REST API)
-    1. [Adding a New Notebook](#Adding a New Notebook)
-    1. [Configuring OpenAI's API Key](#Configuring OpenAI's API Key)
-    1. [Triggering Your Notebook](#Triggering Your Notebook)
-1. [Usage](#Usage)
-    1. [Developing Integrations](#Developing Integrations)
-    1. [Asking Multiple Questions and Storing the Results to a Table](#Asking Multiple Questions and Storing the Results to a Table)
-    1. [Building a JAQL](#Building a JAQL)
-1. [General Utilities](#General Utilities)
-1. [Resources](#Resources)
-1. [Contact](#Contact)
-  
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#folder-structure">Folder Structure</a></li>
+        <li><a href="#built-with">Built With</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#limitations">Limitations</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#installation">Installation</a>
+         <ul>
+           <li><a href="#installation-for-remote-development">Installation for Remote Development</a>
+            <ul>
+               <li><a href="#terminal-based-installation">Terminal Based Installation</a></li>
+            </ul>
+           </li>
+           <li><a href="#installation-for-local-development">Installation for Local Development</a></li>  
+           <li><a href="#important-tips">Important Tips</a></li>
+         </ul>
+        </li>
+        <li><a href="#extract-authentication-token-from-sisense-rest-api">Extract Authentication Token From Sisense REST API</a></li>       
+        <li><a href="#adding-a-new-notebook">Adding a New Notebook</a></li>  
+        <li><a href="#configuring-openai's-api-key">Configuring OpenAI's API Key</a></li>
+        <li><a href="#triggering-your-notebook">Triggering Your Notebook</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a>
+    <ul>
+        <li><a href="#developing-integrations">Developing Integrations</a></li>
+        <li><a href="#asking-multiple-questions-and-storing-the-results-to-a-table">Asking Multiple Questions and Storing the Results to a Table</a></li>
+        <li><a href="#building-a-jaql">Building a JAQL</a></li>      
+    </ul>
+    </li>
+    <li><a href="#general-utilities">General Utilities</a></li>
+    <li><a href="#resources">Resources</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
 </details>
-
-
+<br/>
+<br/>
 
 <!-- ABOUT THE PROJECT -->
-## About The Project <a name="About The Project"></a>
+## About The Project
 This project explains how to leverage Sisense's *Custom Code Transformation* feature together with our extensive API library to connect with generative language models, such as GPT.
 You'll find here sample code and documentation on how to enrich data from Sisense with GPT, via your own IDE as a developer experience, as well as a low code experience from the Sisense UI.
 
-### Folder Structure :cactus: <a name="Folder Structure"></a>
+### Folder Structure :cactus:
 There are two main sections to this project:
-1. [Custom Code Notebooks](https://github.com/sisense/blox-ai/blob/master/custom_code_notebooks)    This section showcases sample *Custom Code Transfomration* IPython notebooks of server side code, that holds the logic to handle textual prompts from the client, extract data from sisense via api, enrich data with GPT and write back to sisense. The notebooks are in accordance with the *Custom code Transformation* feature that can be accessed through the Sisense UI.
-1. [BloX Usage](https://github.com/sisense/blox-ai/blob/master/blox_usage)    This section holds a full example of *BloX* client side code that is complimentary to the *Custom Code Transformation* ipython notebooks and together create a complete app that passes the user prompt from the *BloX* widget to *Custom Code Transformation*, where data is enriched by GPT and passed back to *BloX*.
+1. [Custom Code Notebooks](https://github.com/sisense/ai-integration-examples/tree/main/custom_code_notebooks)    This section showcases sample *Custom Code Transfomration* IPython notebooks of server side code, that holds the logic to handle textual prompts from the client, extract data from sisense via api, enrich data with GPT and write back to sisense. The notebooks are in accordance with the *Custom code Transformation* feature that can be accessed through the Sisense UI.
+1. [BloX Usage](https://github.com/sisense/ai-integration-examples/tree/main/blox_examples)    This section holds a full example of *BloX* client side code that is complimentary to the *Custom Code Transformation* ipython notebooks and together create a complete app that passes the user prompt from the *BloX* widget to *Custom Code Transformation*, where data is enriched by GPT and passed back to *BloX*.
 <details open="open">
   <summary>Folder Structure</summary>
 
@@ -130,14 +149,14 @@ There are two main sections to this project:
     └── README.md
 </details>
 
-### Built With <a name="Built With"></a>
+### Built With
 
 * Sisense API -      <a href="https://sisense.dev/guides/rest/"><img src="images/Sisense Icon.png" height=20></a> 
 * Sisense BloX -    <a href="https://docs.sisense.com/main/SisenseLinux/overview-sisense-labs.htm"><img src="images/Blox.svg" height=20></a>
 * Sisense Custom Code Transformations -     <a href="https://docs.sisense.com/main/SisenseLinux/transforming-query-results-with-python.htm"><img src="images/Sisense Icon.png" height=20></a> 
 * Python -    [![Python][Python.com]][Python-url]
 
-### Prerequisites <a name="Prerequisites"></a>
+### Prerequisites
 * An active Sisense account and instance
 * An Admin role is needed to enable Blox, Custom Code, and Custom Code Transformation features
 * Users must be Data Designers to control the model
@@ -146,7 +165,7 @@ There are two main sections to this project:
 * To use DashboardSummary and WidgetSummary, you can use any data model
 * Familiarity with [Custom Code Transformations][Custom-Code]
 
-### Limitations <a name="Limitations"></a>
+### Limitations
 * Supports small scale questions
 * GPT-3 has a limitation of 4K characters in the query size
 * Questions with a large data size are split to multiple smaller questions
@@ -155,9 +174,9 @@ There are two main sections to this project:
 
 
 <!-- GETTING STARTED -->
-## Getting Started <a name="Getting Started"></a>
+## Getting Started
 
-### Installation <a name="Installation"></a>
+### Installation
 **Developing** new language model integrations with Sisense can be done in one of the two following ways:
 * The "Remote" option - Via the Jupyter server in your Sisense instance.
 * The "Local" option – Execution via local IDE.
@@ -165,7 +184,7 @@ There are two main sections to this project:
 The default behavior is Remote execution.
 To run it locally, the code changes listed below are required. 
 
-### Installation for Remote Development <a name="Installation for Remote Development"></a>
+#### Installation for Remote Development
 This type of installation depends on your deployment type:
 
 * On-prem customers should refer [here](#terminal-based-installation) for a terminal based installation
@@ -187,7 +206,7 @@ This type of installation depends on your deployment type:
 ```bash
 pip install -r requirements.txt
 ````
-3. Extract authentication token from Sisense REST API [explained here](#extract-authentication-token-from-sisense-rest-api)
+3. Extract authentication token from Sisense REST API [explained here](#extracting-the-authentication-token-from-the-sisense-rest-api)
 4. Uncomment the code and Insert OpenAI API token [here](custom_code_notebooks/utils/AIQueries.py?plain=1#L30)
 5. Change log file destination path to local repo uncomment [here](custom_code_notebooks/utils/AIUtils.py?plain=1#L44), 
    comment [here](custom_code_notebooks/utils/AIUtils.py?plain=1#L42)
@@ -210,7 +229,7 @@ You can also call the API via Sisense REST API
 ![Sisense REST API](images/Authentication_RESTAPI.png)
 Click **Execute** and extract the token within the response body.
 
-### Adding a New Notebook <a name="Adding a New Notebook"></a>
+### Adding a New Notebook
 In order for your notebook to be recognized by Sisense, you must register it. To do so, a REST API request to create a [notebook](https://sisense.dev/reference/rest/v1.html?platform=linux&spec=L2022.11#/notebooks/createNotebook) is required. The payload of the request should be as follows:
 ```json
 {
@@ -376,6 +395,10 @@ utils.get_output_widget_jaql(table_name, types, data_df)
 ## Resources <a name="Resources"></a>
 **Blogs**   
 https://www.sisense.com/blog/supercharge-analytics-with-chatgpt/
+https://www.sisense.com/blog/how-to-make-bi-and-analytics-adoption-simple/
+
+**Webinars**   
+https://www.sisense.com/webinars/revolutionizing-analytics-with-gpt/
 
 **Sisense Documentation**   
 Blox Overview - https://docs.sisense.com/main/SisenseLinux/overview-sisense-labs.htm    
