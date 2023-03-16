@@ -251,9 +251,9 @@
                     "    to_validate_entities_from_question = add_param['to_validate_entities_from_question']\n",
                     "\n",
                     "# for remote develop\n",
-                    "# cookie = add_param['cookie']\n",
+                    "cookie = add_param['cookie']\n",
                     "# for local develop\n",
-                    "cookie = os.getenv(\"Cookie\")"
+                    "# cookie = os.getenv(\"Cookie\")"
                 ]
             },
             {

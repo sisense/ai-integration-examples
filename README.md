@@ -194,6 +194,18 @@ This type of installation depends on your deployment type:
 1. Log into Sisense and enable Custom-Code, Custom-Code Transformations and Blox as shown [here](blox_examples/Readme.md#installation?plain=1#94)
 2. Clone this repository.
 3. Edit [the configuration file](config.json).
+```json
+{
+  "mode": "install/uninstall",
+  "ip": "X.X.X.X",
+  "sisense_port": "30845",
+  "user": "ssh user",
+  "password": "XXX",
+  "sisense_username": "user@sisense.com",
+  "sisense_password": "XXX",
+  "lm_api_key": "OpenAI API KEY"
+}
+```
 4. Open your terminal and `cd` into the repository's directory.
 5. Run the following command: 
 ```bash
@@ -394,7 +406,8 @@ utils.get_output_widget_jaql(table_name, types, data_df)
 <!-- RESOURCES -->
 ## Resources <a name="Resources"></a>
 **Blogs**   
-https://www.sisense.com/blog/supercharge-analytics-with-chatgpt/
+https://www.sisense.com/blog/supercharge-analytics-with-chatgpt/ 
+
 https://www.sisense.com/blog/how-to-make-bi-and-analytics-adoption-simple/
 
 **Webinars**   
