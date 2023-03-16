@@ -407,6 +407,7 @@ utils.get_output_widget_jaql(table_name, types, data_df)
 ## Resources <a name="Resources"></a>
 **Blogs**   
 https://www.sisense.com/blog/supercharge-analytics-with-chatgpt/ 
+<br>
 
 https://www.sisense.com/blog/how-to-make-bi-and-analytics-adoption-simple/
 
@@ -422,7 +423,7 @@ Custom Code Transformation - https://docs.sisense.com/main/SisenseLinux/transfor
 
 <!-- CONTACT -->
 ## Contact <a name="Contact"></a>
-For inquiries contact ai@sisense.com
+For inquiries contact ai-github-help@sisense.com
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
