@@ -74,7 +74,7 @@ You'll find here sample code and documentation on how to enrich data from Sisens
 ### Folder Structure :cactus:
 There are two main sections to this project:
 1. [Custom Code Notebooks](https://github.com/sisense/ai-integration-examples/tree/main/custom_code_notebooks)    This section showcases sample *Custom Code Transfomration* IPython notebooks of server side code, that holds the logic to handle textual prompts from the client, extract data from sisense via api, enrich data with GPT and write back to sisense. The notebooks are in accordance with the *Custom code Transformation* feature that can be accessed through the Sisense UI.
-1. [BloX Usage](https://github.com/sisense/ai-integration-examples/tree/main/blox_examples)    This section holds a full example of *BloX* client side code that is complimentary to the *Custom Code Transformation* ipython notebooks and together create a complete app that passes the user prompt from the *BloX* widget to *Custom Code Transformation*, where data is enriched by GPT and passed back to *BloX*.
+1. [BloX Examples](https://github.com/sisense/ai-integration-examples/tree/main/blox_examples)    This section holds a full example of *BloX* client side code that is complimentary to the *Custom Code Transformation* ipython notebooks and together create a complete app that passes the user prompt from the *BloX* widget to *Custom Code Transformation*, where data is enriched by GPT and passed back to *BloX*.
 <details open="open">
   <summary>Folder Structure</summary>
 
@@ -218,6 +218,7 @@ This type of installation depends on your deployment type:
 ```bash
 pip install -r requirements.txt
 ````
+Note that you need to uncomment openai library in the requirements file.
 3. Extract authentication token from Sisense REST API [explained here](#extracting-the-authentication-token-from-the-sisense-rest-api)
 4. Uncomment the code and Insert OpenAI API token [here](custom_code_notebooks/utils/AIQueries.py?plain=1#L30)
 5. Change log file destination path to local repo uncomment [here](custom_code_notebooks/utils/AIUtils.py?plain=1#L44), 

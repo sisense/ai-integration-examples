@@ -27,9 +27,11 @@ class AIQueries:
 # Un comment OPENAI #            import openai
 # Un comment OPENAI #        self.oai = openai
         # *************************************************************************** 
-
+        # for remote develop
         # Load your API key from an environment variable or secret management service
         self.oai.api_key = utils.get_configuration(key='AI-API-KEY.value')
+        # for local develop
+        # self.oai.api_key = 'AI-API-KEY'
         self.utils = utils
 
 # *****************************************************************************************
