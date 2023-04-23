@@ -103,7 +103,7 @@ The following examples show how language models can be integreated into Sisense 
 7. Drag or select the [installation notebook](../InstallBloxAI.sipynb) to the import screen
 8. Insert 'Install' in operation section, and your OpenAI API key in AIAPIKEY section:
 ![open in jupyter](../images/Open-in-jupy.png)
-   Important Note: The same notebook performs both Install and Uninstall operations - verify the required operation was selected
+   Important Note: The same notebook performs both Install and UnInstall operations - verify the required operation was selected
 9. That’s it! you did it! 
 If you refresh the analytics page you should see a new dashboard: _“Blox AI”_
 
