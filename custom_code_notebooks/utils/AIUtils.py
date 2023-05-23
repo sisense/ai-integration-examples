@@ -214,21 +214,23 @@ class AIUtils:
         print(f"model: {model_name} was publish \nstatus: {res}")
 
         self.add_time('after publish model')
-        
-    def delete_table(self, model:dict, table_name:str):
+
+    def delete_table(self, model: dict, table_name: str):
         """
-        delete table with table_name  
+        delete table with table_name
         """
-        for i in range(len(model['datasets'])):  
-            table_schema = model['datasets'][i]['schema']['tables'][0] 
-           
-            if table_schema['name'] == table_name:
-                datamodelId = model['oid']
-                datasetId = model['datasets'][i]['oid']        
-                delete_path = '/api/v2/datamodels/' + datamodelId + '/schema/datasets/' + datasetId + '/tables/' +table_schema['oid']
-                res = requests.delete(self.sisense_conn.sisense_base_url + delete_path, headers=self.sisense_conn.headers)
-                print(f"table: {table_name} was deleted \npath {delete_path}\nstatus: {res}")
-                return res
+        for i in range(len(model['datasets'])):
+            table_schema = model['datasets'][i]['schema']['tables']
+            for table in table_schema:
+                if table['name'] == table_name:
+                    datamodelId = model['oid']
+                    datasetId = model['datasets'][i]['oid']
+                    delete_path = '/api/v2/datamodels/' + datamodelId + '/schema/datasets/' + datasetId + '/tables/' + \
+                                  table['oid']
+                    res = requests.delete(self.sisense_conn.sisense_base_url + delete_path,
+                                          headers=self.sisense_conn.headers)
+                    print(f"table: {table_name} was deleted \npath {delete_path}\nstatus: {res}")
+                    return res
     
     
     def create_table_with_query(self, model:dict, sql_import_query:str, table_name:str, types:list, df_result_keys:list):
