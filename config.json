@@ -4,6 +4,7 @@
   "sisense_port": "",
   "user": "",
   "password": "",
+  "ssh_key": "pem key path",
   "sisense_username": "",
   "sisense_password": "",
   "lm_api_key": ""
