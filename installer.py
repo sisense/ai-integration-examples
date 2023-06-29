@@ -28,11 +28,13 @@ def copy_files_to_instance(config: dict):
     user = config["user"]
     ip = config["ip"]
     password = config["password"]
+    ssh_key = config["ssh_key"]
+    ssh_key = None if ssh_key == "" else ssh_key
     ssh = SSHClient()
     ssh.load_system_host_keys()
     logger.info("Connecting to instance")
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(ip, 22, user, password)
+    ssh.connect(ip, 22, user, password, key_filename=ssh_key)
     logger.info("Connected")
     destination_full_path = '/opt/sisense/storage/notebooks/custom_code_notebooks/notebooks'
     source_notebook_files_path = './custom_code_notebooks'
@@ -232,11 +234,13 @@ def delete_remote_files(config, sisense_conn):
     user = config["user"]
     ip = config["ip"]
     password = config["password"]
+    ssh_key = config["ssh_key"]
+    ssh_key = None if ssh_key == "" else ssh_key
     ssh = SSHClient()
     ssh.load_system_host_keys()
     logger.info("Connecting to instance")
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    ssh.connect(ip, 22, user, password)
+    ssh.connect(ip, 22, user, password, key_filename=ssh_key)
     logger.info("Connected")
     destination_full_path = '/opt/sisense/storage/notebooks/custom_code_notebooks'
     custom_libraries = ['AIIntegration.py', 'AIQueries.py', 'AIUtils.py', 'InferenceQuestionType.py']
